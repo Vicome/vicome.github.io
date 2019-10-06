@@ -1,11 +1,11 @@
 # Site settings
 title: ViCome Blog
-SEOTitle: 宋炯炯博客 | ViCome Blog
+SEOTitle: 囧囧の博客 | Vicome Blog
 header-img: img/home-bg.jpg
 email: vicome521@gmail.com
 description: ""
 keyword: ""
-url: "http://huangxuan.me"              # your host, for absolute URL
+url: "http://vicome.github.io"              # your host, for absolute URL
 baseurl: ""         # for example, '/blog' if your blog hosted on 'host/blog'
 
 

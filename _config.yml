@@ -6,7 +6,7 @@ email: vicome521@gmail.com
 description: "stay hungry,stay foolish"
 keyword: "love"
 url: "http://vicome.github.io"              # your host, for absolute URL
-baseurl: "vic"         # for example, '/blog' if your blog hosted on 'host/blog'
+baseurl: ""         # for example, '/blog' if your blog hosted on 'host/blog'
 
 
 

@@ -14,7 +14,7 @@ future: true
 # SNS settings
 RSS: false
 # weibo_username:     vicome
-# zhihu_username:     
+zhihu_username:     viclover
 github_username:    vicome
 # twitter_username:   vicome
 #facebook_username:  vicome

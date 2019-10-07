@@ -1,9 +1,14 @@
 {
-    "name": "Vicome-Blog",
+    "name": "vicome-blog",
     "title": "Vicome Blog",
-    "version": "1.0.0",
+    "author": "Vicome <vicome521@gmail.com>",
+    "version": "1.8.2",
     "homepage": "http://vicome.github.io",
-    "author": "Vicome",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Vicome/vicome.github.io"
+    },
+    "bugs": "https://github.com/Vicome/vicome.github.io/issues",
     "devDependencies": {
         "grunt": "~0.4.5",
         "grunt-contrib-less": "~0.11.4",
@@ -11,12 +16,10 @@
         "grunt-banner": "~0.2.3",
         "grunt-contrib-uglify": "~0.5.1"
     },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Vicome/vicome.github.io"
-    },
     "scripts": {
-        "preview": "cd _site; python -m SimpleHTTPServer 8020",
-        "watch": "grunt watch & npm run preview & jekyll serve -w;"
+        "start" : "jekyll serve -w -l --host 0.0.0.0 --port 4000",
+        "dev"   : "grunt watch & npm run start",
+        "boil"  : "git push boilerplate boilerplate:master",
+        "push"  : "git push origin master --tag"
     }
 }

@@ -1,0 +1,449 @@
+I"O<blockquote>
+  <p>“细节决定成败。”</p>
+</blockquote>
+
+<p>[TOC]</p>
+
+<h3 id="数据库系统">数据库系统</h3>
+
+<p>数据库系统：由数据库、数据库管理系统、应用系统和数据库管理员构成的。</p>
+
+<p>数据库管理系统简称DBMS，是数据库的关键组成部分，包括数据库定义、数据查询、数据维护等。</p>
+
+<h3 id="sql语言一种结构化查询语言">SQL语言：一种结构化查询语言</h3>
+
+<p><strong>数据库定义语言</strong>：Data Definition Language，DDL，包括Create、Drop、alter</p>
+
+<p><strong>数据库操作语言</strong>：Data Manipulation Language，DML，包括select、update、delete、insert</p>
+
+<p><strong>数据库控制语言</strong>：Data Control Language，DCL，包括Grant、invoke</p>
+
+<p><strong>事务控制语言</strong>：Transaction Control Language，commit，rollback</p>
+
+<h3 id="dml相关语句">DML相关语句</h3>
+
+<h5 id="select-检索语句">Select 检索语句：</h5>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="k">Select</span> <span class="err">所查询字段列表</span> <span class="k">from</span> <span class="err">数据库表</span> <span class="k">where</span> <span class="err">条件表达式</span> <span class="k">Group</span> <span class="k">By</span> <span class="err">字段名</span> <span class="k">Having</span> <span class="err">条件表达式</span> <span class="k">order</span> <span class="k">by</span> <span class="err">字段名</span><span class="p">[</span><span class="k">ASC</span><span class="o">|</span><span class="k">DESC</span><span class="p">]</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="insert-插入语句">Insert 插入语句：</h5>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="k">Insert</span> <span class="k">into</span> <span class="err">表名</span><span class="p">(</span><span class="err">字段列表</span><span class="p">)</span> <span class="n">value</span><span class="p">(</span><span class="err">属性值列表</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="update语句">Update语句：</h5>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="k">Update</span> <span class="err">数据库表名</span> <span class="k">set</span> <span class="err">字段名</span><span class="o">=</span><span class="err">新的字段值</span> <span class="k">where</span> <span class="err">条件表达式</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="delete-删除语句">Delete 删除语句:</h5>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="k">Delete</span> <span class="k">from</span> <span class="err">数据库表</span> <span class="k">where</span> <span class="err">条件表达式</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="多表查询">多表查询：</h5>
+
+<p>仅查询选课的学生信息：</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="k">select</span> <span class="err">字段列表</span> <span class="k">from</span> <span class="p">[</span><span class="err">表</span><span class="mi">1</span><span class="err">，表</span><span class="mi">2</span><span class="err">···</span><span class="p">]</span> <span class="k">where</span> <span class="err">条件表达式；</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>查询所有的学生的选课信息：（左外连接）</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="k">select</span> <span class="err">字段列表</span> <span class="k">from</span> <span class="err">表</span><span class="mi">1</span> <span class="k">left</span> <span class="n">jion</span> <span class="err">表</span><span class="mi">2</span> <span class="k">on</span> <span class="err">条件表达式</span> <span class="k">group</span> <span class="k">by</span> <span class="err">字段名；</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>以学生选课数据库表为例：</p>
+
+<pre><code class="language-mysql">SELECT student.SNo,student.Sname,COUNT(sc.CNo) clazzNums,SUM(sc.score) totleScore FROM
+student, sc WHERE student.SNo=sc.SNo GROUP BY student.SNo;
+
+SELECT student.SNo,student.Sname,COUNT(sc.CNo) clazzNums,SUM(sc.score) totleScore FROM
+student LEFT JOIN sc ON student.SNo=sc.SNo GROUP BY student.SNo;
+</code></pre>
+
+<h5 id="多条件查询">多条件查询：</h5>
+
+<p>连接条件的关键字：not，and，or，&gt;= =&lt;，in，between···and</p>
+
+<ul>
+  <li>
+    <p>前三个用于连接多个条件，in和between···and用于范围内查询，&gt;= =&lt;两种情况都适用。</p>
+  </li>
+  <li>
+    <p>not可用于取反。</p>
+  </li>
+  <li>
+    <p>in(value1，value2，value3···)，在MySQL中in后面还可以跟子查询</p>
+
+    <pre><code class="language-mysql">SELECT * FROM table WHERE uid IN(SELECT uid FROM user WHERE status=0)
+</code></pre>
+  </li>
+  <li>
+    <p>between···and 常用于日期和时间段的查询，在mysql中between的范围包括边界值，不同的数据库可能会不同。</p>
+  </li>
+</ul>
+
+<h5 id="使用like的模糊查询">使用like的模糊查询：</h5>
+
+<p>字符串匹配的语法格式如下：</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="o">&lt;</span><span class="err">表达式</span><span class="mi">1</span><span class="o">&gt;</span> <span class="p">[</span><span class="k">NOT</span><span class="p">]</span><span class="k">LIKE</span> <span class="o">&lt;</span><span class="err">表达式</span><span class="mi">2</span><span class="o">&gt;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>字符串匹配是一种模式匹配，使用运算符 LIKE 设置过滤条件，过滤条件使用通配符进行匹配运算。</p>
+
+<p>mysql中支持的通配符有两种：①百分号（%）：可匹配多个字符，②下划线（_）：匹配单个字符。</p>
+
+<h3 id="数据库常用语句mysql">数据库常用语句（MySQL）</h3>
+
+<h4 id="建库">建库</h4>
+
+<h5 id="创建数据库-">创建数据库 ：</h5>
+
+<pre><code class="language-mysql">create database 库名;
+</code></pre>
+
+<h5 id="修改数据库">修改数据库：</h5>
+
+<pre><code class="language-mysql">alter database 库名 { [ DEFAULT ] CHARACTER SET &lt;字符集名&gt; |
+[ DEFAULT ] COLLATE &lt;校对规则名&gt;};
+</code></pre>
+
+<blockquote>
+  <p>ALTER DATABASE 用于更改数据库的全局特性。这些特性存储在数据库目录的 db.opt 文件中。</p>
+
+  <p>使用 ALTER DATABASE 需要获得数据库 ALTER 权限。</p>
+
+  <p>数据库名称可以忽略，此时语句对应于默认数据库。</p>
+
+  <p>CHARACTER SET 子句用于更改默认的数据库字符集。</p>
+</blockquote>
+
+<p>修改数据库的字符集：</p>
+
+<pre><code class="language-mysql">mysql&gt; CREATE DATABASE test_db
+    -&gt; DEFAULT CHARACTER SET gb2312
+    -&gt; DEFAULT COLLATE gb2312_chinese_ci;
+</code></pre>
+
+<h5 id="删除数据库">删除数据库：</h5>
+
+<pre><code class="language-mysql">drop database 库名;
+</code></pre>
+
+<h5 id="使用数据库">使用数据库：</h5>
+
+<pre><code class="language-mysql">use 库名;
+</code></pre>
+
+<h4 id="建表">建表</h4>
+
+<h5 id="简单创建一个表">简单创建一个表：</h5>
+
+<pre><code class="language-mysql">create table 表名;
+</code></pre>
+
+<h5 id="创建一个包含字段单列主外键的数据库表">创建一个包含字段，单列主外键的数据库表：</h5>
+
+<pre><code class="language-mysql">CREATE TABLE Orders
+(
+Id_O int NOT NULL,
+OrderNo int NOT NULL,
+Id_P int,
+PRIMARY KEY (Id_O),
+FOREIGN KEY (Id_P) REFERENCES Persons(Id_P)
+);
+</code></pre>
+
+<h5 id="修改表中的字段">修改表中的字段</h5>
+
+<p>添加列：</p>
+
+<pre><code class="language-mysql">ALTER TABLE table_name
+ADD column_name datatype;
+</code></pre>
+
+<p>删除列：</p>
+
+<pre><code class="language-mysql">ALTER TABLE table_name 
+DROP COLUMN column_name;
+</code></pre>
+
+<p>修改列：</p>
+
+<pre><code class="language-mysql">ALTER TABLE table_name
+ALTER COLUMN column_name datatype;
+</code></pre>
+
+<h4 id="主键primary-key">主键（PRIMARY KEY）</h4>
+
+<blockquote>
+  <p>PRIMARY KEY 约束唯一标识数据库表中的每条记录。</p>
+
+  <p>主键必须包含唯一的值。</p>
+
+  <p>主键列不能包含 NULL 值。</p>
+
+  <p>每个表都应该有一个主键，并且每个表只能有一个主键。</p>
+</blockquote>
+
+<h5 id="为多个列定义-primary-key-约束">为多个列定义 PRIMARY KEY 约束：</h5>
+
+<pre><code class="language-mysql">CREATE TABLE Persons
+(
+Id_P int NOT NULL,
+LastName varchar(255) NOT NULL,
+FirstName varchar(255),
+Address varchar(255),
+City varchar(255),
+CONSTRAINT pk_PersonID PRIMARY KEY (Id_P,LastName)
+);
+</code></pre>
+
+<h5 id="在已有表上定义primary-key-约束">在已有表上定义PRIMARY KEY 约束</h5>
+
+<p>为单个列定义PRIMARY KEY 约束：</p>
+
+<pre><code class="language-mysql">ALTER TABLE Persons
+ADD PRIMARY KEY (Id_P);
+</code></pre>
+
+<p>为多个列定义PRIMARY KEY 约束：</p>
+
+<pre><code class="language-mysql">ALTER TABLE Persons
+ADD CONSTRAINT pk_PersonID PRIMARY KEY (Id_P,LastName);
+</code></pre>
+
+<h5 id="撤销-primary-key约束">撤销 PRIMARY KEY约束：</h5>
+
+<pre><code class="language-mysql">ALTER TABLE Persons
+DROP PRIMARY KEY;
+</code></pre>
+
+<h4 id="外键foreign-key">外键（FOREIGN KEY）</h4>
+
+<blockquote>
+  <p>FOREIGN KEY 约束用于预防破坏表之间连接的动作。</p>
+
+  <p>FOREIGN KEY 约束也能防止非法数据插入外键列，因为它必须是它指向的那个表中的值之一。</p>
+</blockquote>
+
+<h5 id="为多个列定义-foreign-key-约束">为多个列定义 FOREIGN KEY 约束：</h5>
+
+<pre><code class="language-mysql">CREATE TABLE Orders
+(
+Id_O int NOT NULL,
+OrderNo int NOT NULL,
+Id_P int,
+PRIMARY KEY (Id_O),
+CONSTRAINT fk_PerOrders FOREIGN KEY (Id_P)
+REFERENCES Persons(Id_P)
+);
+</code></pre>
+
+<h5 id="在已有表上定义foreign-key-约束">在已有表上定义FOREIGN KEY 约束</h5>
+
+<p>为单个列定义FOREIGN KEY 约束：</p>
+
+<pre><code class="language-mysql">ALTER TABLE Orders
+ADD FOREIGN KEY (Id_P)
+REFERENCES Persons(Id_P);
+</code></pre>
+
+<p>为多个列定义FOREIGN KEY 约束：</p>
+
+<pre><code class="language-mysql">ALTER TABLE Orders
+ADD CONSTRAINT fk_PerOrders
+FOREIGN KEY (Id_P)
+REFERENCES Persons(Id_P);
+</code></pre>
+
+<h5 id="撤销-foreign-key-约束">撤销 FOREIGN KEY 约束：</h5>
+
+<pre><code class="language-mysql">ALTER TABLE Orders
+DROP FOREIGN KEY fk_PerOrders;
+</code></pre>
+
+<h4 id="视图">视图</h4>
+
+<blockquote>
+  <p>在 SQL 中，视图是基于 SQL 语句的结果集的可视化的表。</p>
+
+  <p>视图包含行和列，就像一个真实的表。视图中的字段就是来自一个或多个数据库中的真实的表中的字段。我们可以</p>
+
+  <p>向视图添加 SQL 函数、WHERE 以及 JOIN 语句，我们也可以提交数据，就像这些来自于某个单一的表。</p>
+</blockquote>
+
+<h5 id="创建视图">创建视图：</h5>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="k">CREATE</span> <span class="k">VIEW</span> <span class="n">view_name</span> <span class="k">AS</span>
+<span class="k">SELECT</span> <span class="k">column_name</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="k">FROM</span> <span class="k">table_name</span>
+<span class="k">WHERE</span> <span class="n">condition</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="查询视图">查询视图：</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>SELECT * FROM view_name;
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="更新视图">更新视图：</h5>
+
+<pre><code class="language-mysql">CREATE （OR REPLACE） VIEW view_name AS
+SELECT column_name(s)
+FROM table_name
+WHERE condition;
+</code></pre>
+
+<h5 id="撤销视图">撤销视图：</h5>
+
+<pre><code class="language-mysql">SQL DROP VIEW Syntax
+DROP VIEW view_name;
+</code></pre>
+
+<h4 id="存储过程mysql56以上">存储过程（MySQL5.6以上）</h4>
+
+<blockquote>
+  <p>存储过程是一组为了完成特定功能的 SQL 语句集合。</p>
+
+  <p>使用存储过程的目的是将常用或复杂的工作预先用 SQL语句写好并用一个指定名称存储起来，这个过程经编译和优化后存储在数据库服务器中，因此称为存储过程。当以后需要数据库提供与已定义好的存储过程的功能相同的服务时，只需调用“CALL 存储过程名字”即可自动完成。</p>
+
+  <p>一个存储过程是一个可编程的函数，它在数据库中创建并保存，一般由 SQL 语句和一些特殊的控制结构组成。当希望在不同的应用程序或平台上执行相同的特定功能时，存储过程尤为合适。</p>
+
+  <p>存储过程通常有如下优点：封装性，可增强 SQL 语句的功能和灵活性，可减少网络流量，高性能，提高数据库的安全性和数据的完整性。</p>
+</blockquote>
+
+<h5 id="创建存储库">创建存储库：</h5>
+
+<pre><code class="language-mysql">CREATE PROCEDURE &lt;过程名&gt; ( [过程参数[,…] ] ) &lt;过程体&gt;
+[过程参数[,…] ] 格式
+[ IN | OUT | INOUT ] &lt;参数名&gt; &lt;类型&gt;
+</code></pre>
+
+<p>语法说明如下：</p>
+
+<p><strong>①过程名</strong></p>
+
+<p>存储过程的名称，默认在当前数据库中创建。</p>
+
+<p>若需要在特定数据库中创建存储过程，则要在名称前面加上数据库的名称，即 db_name.sp_name。</p>
+
+<p>需要注意的是，名称应当尽量避免选取与 MySQL 内置函数相同的名称，否则会发生错误。</p>
+
+<p><strong>②过程参数</strong></p>
+
+<p>存储过程的参数列表。其中，<code class="highlighter-rouge">&lt;参数名&gt;</code>为参数名，<code class="highlighter-rouge">&lt;类型&gt;</code>为参数的类型（可以是任何有效的 MySQL 数据类型）。当有多个参数时，参数列表中彼此间用逗号分隔。存储过程可以没有参数（此时存储过程的名称后仍需加上一对括号），也可以有 1 个或多个参数。</p>
+
+<p>MySQL 存储过程支持三种类型的参数，即输入参数、输出参数和输入/输出参数，分别用 IN、OUT 和 INOUT 三个关键字标识。</p>
+
+<p>其中，输入参数可以传递给一个存储过程，输出参数用于存储过程需要返回一个操作结果的情形，而输入/输出参数既可以充当输入参数也可以充当输出参数。</p>
+
+<p>需要注意的是，参数的取名不要与数据表的列名相同，否则尽管不会返回出错信息，但是存储过程的 SQL 语句会将参数名看作列名，从而引发不可预知的结果。</p>
+
+<p><strong>③过程体</strong></p>
+
+<p>存储过程的主体部分，也称为存储过程体，包含在过程调用的时候必须执行的 SQL 语句。这个部分以关键字 BEGIN 开始，以关键字 END 结束。若存储过程体中只有一条 SQL 语句，则可以省略 BEGIN-END 标志。</p>
+
+<p><strong>在存储过程的创建中，经常会用到一个十分重要的 MySQL 命令，即 DELIMITER 命令，特别是对于通过命令行的方式来操作 MySQL 数据库的使用者，更是要学会使用该命令。</strong></p>
+
+<p>在 MySQL 中，服务器处理 SQL 语句默认是以分号作为语句结束标志的。</p>
+
+<p>然而，在创建存储过程时，存储过程体可能包含有多条 SQL 语句，这些 SQL 语句如果仍以分号作为语句结束符，那么 MySQL 服务器在处理时会以遇到的第一条 SQL 语句结尾处的分号作为整个程序的结束符，而不再去处理存储过程体中后面的 SQL 语句，这样显然不行。</p>
+
+<p>为解决这个问题，通常可使用 <code class="highlighter-rouge">DELIMITER 命令</code>将结束命令修改为其他字符。</p>
+
+<pre><code class="language-mysql">mysql &gt; DELIMITER ??
+</code></pre>
+
+<p>成功执行这条 SQL 语句后，<strong>任何命令、语句或程序的结束标志就换为两个问号“??”了。</strong>这个操作是永久性的。</p>
+
+<p>若希望换回默认的分号“;”作为结束标志，则在 MySQL 命令行客户端输入下列语句即可：</p>
+
+<pre><code class="language-mysql">mysql &gt; DELIMITER ;
+</code></pre>
+
+<h5 id="创建不带参数的存储过程">创建不带参数的存储过程：</h5>
+
+<pre><code class="language-mysql">mysql&gt; DELIMITER ??
+mysql&gt; CREATE PROCEDURE ShowStuScore()
+    -&gt; BEGIN
+    -&gt; SELECT * FROM tb_students_score;
+    -&gt; END ??
+</code></pre>
+
+<h5 id="创建带参数的存储过程">创建带参数的存储过程：</h5>
+
+<pre><code class="language-mysql">mysql&gt; DELIMITER ??
+mysql&gt; CREATE PROCEDURE GetScoreByStu
+    -&gt; (IN name VARCHAR(30))
+    -&gt; BEGIN
+    -&gt; SELECT student_score FROM tb_students_score
+    -&gt; WHERE student_name=name;
+    -&gt; END ??
+</code></pre>
+
+<h3 id="sql-约束-constraints">SQL 约束 (Constraints)</h3>
+
+<blockquote>
+  <p>约束用于限制加入表的数据的类型。</p>
+
+  <p>可以在创建表时规定约束（通过 CREATE TABLE 语句），或者在表创建之后也可以（通过 ALTER TABLE 语句）。</p>
+
+  <p>我们将主要探讨以下几种约束：</p>
+</blockquote>
+
+<h5 id="not-null">NOT NULL</h5>
+
+<h5 id="unique">UNIQUE</h5>
+
+<h5 id="primary-key">PRIMARY KEY</h5>
+
+<h5 id="foreign-key">FOREIGN KEY</h5>
+
+<h5 id="check">CHECK</h5>
+
+<h5 id="default">DEFAULT</h5>
+
+<p>//TODO</p>
+
+<h3 id="sql函数">SQL函数</h3>
+
+<p>//TODO</p>
+
+<h3 id="jdbc常用的类和接口">JDBC常用的类和接口</h3>
+
+<p><strong>JDBC技术(Java Database Connectivity),主要完成以下几个接口：</strong></p>
+
+<ul>
+  <li>与数据库建立一个连接</li>
+  <li>向数据库发送SQL语句</li>
+  <li>处理从数据库返回的结果</li>
+</ul>
+
+<p><strong>Connection接口</strong>：与数据库连接，在上下文中处理SQL语句并返回结果</p>
+
+<p><strong>DriverManager类</strong>：jdbc的管理层在数据库的程序中间建立连接。getConnection(String url, String user, String password)方法</p>
+
+<p><strong>Statement 接口</strong>：在jdbc中有三种statement对象，分别是statement对象、preparedStatement对象和callbackStatement对象。</p>
+
+<p>Statement对象用于执行不带参数的简单SQL语句；preparestatement对象用于执行带参数的动态SQL语句；</p>
+
+<p>Callbackstatement对象用来执行对数据库的存储过程的调用。</p>
+
+<p><strong>以及ResultSet接口</strong></p>
+
+:ET

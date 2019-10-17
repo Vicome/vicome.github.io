@@ -1,0 +1,145 @@
+I";<blockquote>
+  <p>“Follow you instincts.”</p>
+</blockquote>
+
+<p>[TOC]</p>
+
+<h2 id="前言">前言</h2>
+
+<p>折腾了一天的博客就这样开始见世面了。</p>
+
+<p>2019年，我即将离校，毕竟世界辣么大，总要去看看。恰好在Clean Blog 与 Hux Blog相遇，那一眼，我觉得它就是我的真爱。虽然我认识它已经过了5年，但是作为一个极简主义爱好者，还是被它所散发的魅力深深吸引。</p>
+
+<p>我几乎没怎么玩过微博，是不是难以相信？不，这是真的。我经常会出现在CSDN上（自从它开始欣赏自我，全新界面更改之后），偶尔也出没于知乎。也有经常有分享和记录自己成长历程写博客的想法，实际上我也是真的在写，不过是在Evernote和wps word上面。今天遇到Hux Blog, 于是迸发出来相似的热情，弄个Blog吧。</p>
+
+<h2 id="正文">正文</h2>
+
+<p>接下来说一下我是如何搭建这个博客的过程。</p>
+
+<p>首先说明一下，我的操作系统是Windows 10 专业版。而之前了解Clean Blog / Hux Blog 系列大都是基于Unix/Linux或者Mac操作系统。</p>
+
+<p>先是将Hux Blog的概况了解了一番。发现该博主创建的Clean Blog是基于 <a href="https://pages.github.com/">GitHub Pages</a> + <a href="http://jekyllrb.com/">Jekyll</a> 。于是就是搜索了<a href="https://jekyllrb.com/">jekyll官网</a>，直接下载最新版本适用于我的操作系统的Jekyll安装导航<code class="highlighter-rouge">rubyinstaller-devkit-2.6.5-1-x64.exe</code>。</p>
+
+<h3 id="windows下jekyll的安装和使用">Windows下Jekyll的安装和使用</h3>
+
+<h4 id="1-安装rubydevkit">1 安装Ruby+devkit</h4>
+
+<p>下载完安装导向之后直接启动，点击安装。可以直接安装在C盘或者自定义。</p>
+
+<p>将提示的三个选项都勾选上。</p>
+
+<p>在安装结束时，不要勾选<code class="highlighter-rouge">ridk install</code>的选项，后面再手动安装检查rudy是否安装正常。</p>
+
+<p>打开管理员命令提示符(<u>接下来的一系列安装操作都是在命令行进行</u>)，键入<code class="highlighter-rouge">ruby -v</code>，会出现版本号。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>ruby -v
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>检查gem是否安装完毕：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>gem -v
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h4 id="2-安装msys2">2 安装MSYS2</h4>
+
+<p>输入命令：<code class="highlighter-rouge">ridk install</code></p>
+
+<p>输入“ridk install”进行MSYS2的安装，会出现然你选择123，你选3就行。这个过程会下载很多安装包什么的，耐心等待，一定要耐心，要完整装完才行，装好会让你再做一次123选择，这个时候不需要选了，直接enter退出就行了。</p>
+
+<h4 id="3-安装bundler">3 安装bundler</h4>
+
+<p>键入: <code class="highlighter-rouge">gem install bundler</code> 执行安装</p>
+
+<p>等待安装完毕即可</p>
+
+<h4 id="4-安装jekyll">4 安装jekyll</h4>
+
+<p>键入命令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>gem install jekyll
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>检查jekyll是否安装成功：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>jekyll -v
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>如果没什么问题，出现版本提示就说明安装成功了。</p>
+
+<p>也可参考官方文档：<a href="https://jekyllrb.com/docs/installation/windows/">jekyll中文官方文档</a></p>
+
+<h3 id="使用jekyll创建简单的博客">使用jekyll创建简单的博客</h3>
+
+<h4 id="创建博客">创建博客</h4>
+
+<p>键入命令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>jekyll new myblog
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h4 id="本地运行博客">本地运行博客</h4>
+
+<p>切换到刚创建的<code class="highlighter-rouge">myblog</code>目录下，输入命令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre>bundle exec jekyll serve
+或
+jekyll s
+或
+jekyll serve
+或
+jekyll s --watch
+(该命令可以实时编译blog)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>接下来打开浏览器输入：<a href="http://localhost:4000/">http://localhost:4000</a> 就可以看到生成的博客页面。</p>
+
+<p>Jekyll服务器默认端口是4000。</p>
+
+<h3 id="github-pages托管个人博客">GitHub Pages托管个人博客</h3>
+
+<p>网上很多教程，这里就不多赘述了，直接上一篇简洁高效的教程</p>
+
+<p><a href="https://sspai.com/post/54608">GitHub Pages 搭建教程</a></p>
+
+<h3 id="将本地博客托管到github-pages">将本地博客托管到github pages</h3>
+
+<p>你可以使用其他大神开发好的稳定版本，比如我使用的是<a href="https://github.com/Huxpro/huxblog-boilerplate">Huxpro版本</a>。使用github的桌面版将该版本fork到本地即可。或者使用git命令操作。都可以啦。</p>
+
+<h4 id="重点要来了">重点要来了</h4>
+
+<p>接下来在命令行界面，切换到你fork本地博客库的根目录,执行：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>bundle install
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这个过程完成之后你应该就已经在系统上安装了github-pages，此时你可以通过 <code class="highlighter-rouge">jekyll s</code> 命令来在本地启动你的博客。
+在启动的过程你会得到一个警告信息，提示你应该在 <code class="highlighter-rouge">Gemfile</code> 中包含 <code class="highlighter-rouge">gem 'wdm', '&gt;= 0.1.0' if Gem.win_platform?</code>， 但是我在文件中添加了这一行之后 <code class="highlighter-rouge">jekyll s</code> 就不能正常启动了，所以我就直接无视了这个警告。</p>
+
+<p>键入jekyll s 启动本地服务后在命令行界面会出现</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>Server address: http://127.0.0.1:4000/
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>根据博客的设置可能会有所不同，以命令行提示为主。</p>
+
+<p>打开浏览器输入Server address即可浏览自己的博客啦</p>
+
+<h3 id="再次感谢hux提供的huxblog-boilerplate版本">再次感谢Hux提供的huxblog-boilerplate版本。</h3>
+
+<p>博客的格式可以查看该篇文章的头信息。</p>
+:ET

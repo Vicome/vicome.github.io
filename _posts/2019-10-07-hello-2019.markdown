@@ -5,12 +5,15 @@ subtitle:   "Hello World, Hello Blog"
 date:       2019-10-07
 author:     "vicome"
 header-img: "img/post-bg-2019.jpg"
+catalog:    true
 tags:	
     - Myblog
     - Windows
 ---
 
 > "Follow you instincts."
+
+
 
 ## 前言
 
@@ -21,8 +24,6 @@ tags:
 我几乎没怎么玩过微博，是不是难以相信？不，这是真的。我经常会出现在CSDN上（自从它开始欣赏自我，全新界面更改之后），偶尔也出没于知乎。也有经常有分享和记录自己成长历程写博客的想法，实际上我也是真的在写，不过是在Evernote和wps word上面。今天遇到Hux Blog, 于是迸发出来相似的热情，弄个Blog吧。
 
 
-
-------
 
 ##  正文
 

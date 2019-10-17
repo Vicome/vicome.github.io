@@ -1,0 +1,500 @@
+---
+layout:     post
+title:      "sql"
+subtitle:   "sql,mysql知识点整理"
+date:       2019-10-12
+author:     "vicome"
+header-img: "img/post-bg-sql.jpg"
+catalog:    true
+tags:
+    - sql
+    - mysql
+---
+
+> “细节决定成败。”
+
+
+
+### 数据库系统
+
+数据库系统：由数据库、数据库管理系统、应用系统和数据库管理员构成的。
+
+数据库管理系统简称DBMS，是数据库的关键组成部分，包括数据库定义、数据查询、数据维护等。
+
+ 
+
+### SQL语言：一种结构化查询语言
+
+**数据库定义语言**：Data Definition Language，DDL，包括Create、Drop、alter
+
+**数据库操作语言**：Data Manipulation Language，DML，包括select、update、delete、insert
+
+**数据库控制语言**：Data Control Language，DCL，包括Grant、invoke
+
+**事务控制语言**：Transaction Control Language，commit，rollback
+
+ 
+
+### DML相关语句
+
+##### Select 检索语句：
+
+```mysql
+select 所查询字段列表 from 数据库表 where 条件表达式 Group By 字段名 
+Having 条件表达式 order by 字段名[ASC|DESC];
+```
+
+##### Insert 插入语句：
+
+```mysql
+insert into 表名(字段列表) value(属性值列表);
+```
+
+##### Update语句：
+
+```mysql
+update 数据库表名 set 字段名=新的字段值 where 条件表达式;
+```
+
+##### Delete 删除语句:
+
+```mysql
+delete from 数据库表 where 条件表达式;
+```
+
+
+
+##### 多表查询：
+
+仅查询选课的学生信息：
+
+```mysql
+select 字段列表 from [表1，表2···] where 条件表达式；
+```
+
+查询所有的学生的选课信息：（左外连接）
+
+```mysql
+select 字段列表 from 表1 left jion 表2 on 条件表达式 group by 字段名；
+```
+
+以学生选课数据库表为例：
+
+```mysql
+SELECT student.SNo,student.Sname,COUNT(sc.CNo) clazzNums,SUM(sc.score) totleScore FROM
+student, sc WHERE student.SNo=sc.SNo GROUP BY student.SNo;
+
+SELECT student.SNo,student.Sname,COUNT(sc.CNo) clazzNums,SUM(sc.score) totleScore FROM
+student LEFT JOIN sc ON student.SNo=sc.SNo GROUP BY student.SNo;
+```
+
+
+
+##### 多条件查询：
+
+连接条件的关键字：not，and，or，>= =<，in，between···and
+
+- 前三个用于连接多个条件，in和between···and用于范围内查询，>= =<两种情况都适用。
+
+- not可用于取反。
+
+- in(value1，value2，value3···)，在MySQL中in后面还可以跟子查询
+
+  ```mysql
+  SELECT * FROM table WHERE uid IN(SELECT uid FROM user WHERE status=0)
+  ```
+
+- between···and 常用于日期和时间段的查询，在mysql中between的范围包括边界值，不同的数据库可能会不同。
+
+  
+
+##### 使用like的模糊查询：
+
+字符串匹配的语法格式如下：
+
+```mysql
+<表达式1> [NOT]LIKE <表达式2>
+```
+
+字符串匹配是一种模式匹配，使用运算符 LIKE 设置过滤条件，过滤条件使用通配符进行匹配运算。
+
+mysql中支持的通配符有两种：①百分号（%）：可匹配多个字符，②下划线（_）：匹配单个字符。
+
+ 
+
+### 数据库常用语句（MySQL）
+
+#### 建库
+
+##### 创建数据库 ：
+
+```mysql
+create database 库名;
+```
+
+##### 修改数据库：
+
+```mysql
+alter database 库名 { [ DEFAULT ] CHARACTER SET <字符集名> |
+[ DEFAULT ] COLLATE <校对规则名>};
+```
+
+> ALTER DATABASE 用于更改数据库的全局特性。这些特性存储在数据库目录的 db.opt 文件中。
+>
+> 使用 ALTER DATABASE 需要获得数据库 ALTER 权限。
+>
+> 数据库名称可以忽略，此时语句对应于默认数据库。
+>
+> CHARACTER SET 子句用于更改默认的数据库字符集。
+
+修改数据库的字符集：
+
+```mysql
+mysql> CREATE DATABASE test_db
+    -> DEFAULT CHARACTER SET gb2312
+    -> DEFAULT COLLATE gb2312_chinese_ci;
+```
+
+##### 删除数据库：
+
+```mysql
+drop database 库名;
+```
+
+##### 使用数据库：
+
+```mysql
+use 库名;
+```
+
+
+
+#### 建表
+
+##### 简单创建一个表：
+
+```mysql
+create table 表名;
+```
+
+##### 创建一个包含字段，单列主外键的数据库表：
+
+```mysql
+CREATE TABLE Orders
+(
+Id_O int NOT NULL,
+OrderNo int NOT NULL,
+Id_P int,
+PRIMARY KEY (Id_O),
+FOREIGN KEY (Id_P) REFERENCES Persons(Id_P)
+);
+```
+
+##### 修改表中的字段
+
+添加列：
+
+```mysql
+ALTER TABLE table_name
+ADD column_name datatype;
+```
+
+删除列：
+
+```mysql
+ALTER TABLE table_name 
+DROP COLUMN column_name;
+```
+
+修改列：
+
+```mysql
+ALTER TABLE table_name
+ALTER COLUMN column_name datatype;
+```
+
+
+
+#### 主键（PRIMARY KEY）
+
+> PRIMARY KEY 约束唯一标识数据库表中的每条记录。
+>
+> 主键必须包含唯一的值。
+>
+> 主键列不能包含 NULL 值。
+>
+> 每个表都应该有一个主键，并且每个表只能有一个主键。
+
+##### 为多个列定义 PRIMARY KEY 约束：
+
+```mysql
+CREATE TABLE Persons
+(
+Id_P int NOT NULL,
+LastName varchar(255) NOT NULL,
+FirstName varchar(255),
+Address varchar(255),
+City varchar(255),
+CONSTRAINT pk_PersonID PRIMARY KEY (Id_P,LastName)
+);
+```
+
+##### 在已有表上定义PRIMARY KEY 约束
+
+为单个列定义PRIMARY KEY 约束：
+
+```mysql
+ALTER TABLE Persons
+ADD PRIMARY KEY (Id_P);
+```
+
+为多个列定义PRIMARY KEY 约束：
+
+```mysql
+ALTER TABLE Persons
+ADD CONSTRAINT pk_PersonID PRIMARY KEY (Id_P,LastName);
+```
+
+##### 撤销 PRIMARY KEY约束：
+
+```mysql
+ALTER TABLE Persons
+DROP PRIMARY KEY;
+```
+
+
+
+#### 外键（FOREIGN KEY）
+
+> FOREIGN KEY 约束用于预防破坏表之间连接的动作。
+>
+> FOREIGN KEY 约束也能防止非法数据插入外键列，因为它必须是它指向的那个表中的值之一。
+
+##### 为多个列定义 FOREIGN KEY 约束：
+
+```mysql
+CREATE TABLE Orders
+(
+Id_O int NOT NULL,
+OrderNo int NOT NULL,
+Id_P int,
+PRIMARY KEY (Id_O),
+CONSTRAINT fk_PerOrders FOREIGN KEY (Id_P)
+REFERENCES Persons(Id_P)
+);
+```
+
+##### 在已有表上定义FOREIGN KEY 约束
+
+为单个列定义FOREIGN KEY 约束：
+
+```mysql
+ALTER TABLE Orders
+ADD FOREIGN KEY (Id_P)
+REFERENCES Persons(Id_P);
+```
+
+为多个列定义FOREIGN KEY 约束：
+
+```mysql
+ALTER TABLE Orders
+ADD CONSTRAINT fk_PerOrders
+FOREIGN KEY (Id_P)
+REFERENCES Persons(Id_P);
+```
+
+##### 撤销 FOREIGN KEY 约束：
+
+```mysql
+ALTER TABLE Orders
+DROP FOREIGN KEY fk_PerOrders;
+```
+
+
+
+#### 视图
+
+> 在 SQL 中，视图是基于 SQL 语句的结果集的可视化的表。
+>
+> 视图包含行和列，就像一个真实的表。视图中的字段就是来自一个或多个数据库中的真实的表中的字段。我们可以
+>
+> 向视图添加 SQL 函数、WHERE 以及 JOIN 语句，我们也可以提交数据，就像这些来自于某个单一的表。
+
+##### 创建视图：
+
+```mysql
+CREATE VIEW view_name AS
+SELECT column_name(s)
+FROM table_name
+WHERE condition;
+```
+
+##### 查询视图：
+
+```mysql
+SELECT * FROM view_name;
+```
+
+##### 更新视图：
+
+```mysql
+CREATE （OR REPLACE） VIEW view_name AS
+SELECT column_name(s)
+FROM table_name
+WHERE condition;
+```
+
+##### 撤销视图：
+
+```mysql
+SQL DROP VIEW Syntax
+DROP VIEW view_name;
+```
+
+
+
+#### 存储过程（MySQL5.6以上）
+
+> 存储过程是一组为了完成特定功能的 SQL 语句集合。
+>
+> 使用存储过程的目的是将常用或复杂的工作预先用 SQL语句写好并用一个指定名称存储起来，这个过程经编译和优化后存储在数据库服务器中，因此称为存储过程。当以后需要数据库提供与已定义好的存储过程的功能相同的服务时，只需调用“CALL 存储过程名字”即可自动完成。
+>
+> 一个存储过程是一个可编程的函数，它在数据库中创建并保存，一般由 SQL 语句和一些特殊的控制结构组成。当希望在不同的应用程序或平台上执行相同的特定功能时，存储过程尤为合适。
+>
+> 存储过程通常有如下优点：封装性，可增强 SQL 语句的功能和灵活性，可减少网络流量，高性能，提高数据库的安全性和数据的完整性。
+
+##### 创建存储库：
+
+```mysql
+CREATE PROCEDURE <过程名> ( [过程参数[,…] ] ) <过程体>
+[过程参数[,…] ] 格式
+[ IN | OUT | INOUT ] <参数名> <类型>
+```
+
+语法说明如下：
+
+**①过程名**
+
+存储过程的名称，默认在当前数据库中创建。
+
+若需要在特定数据库中创建存储过程，则要在名称前面加上数据库的名称，即 db_name.sp_name。
+
+需要注意的是，名称应当尽量避免选取与 MySQL 内置函数相同的名称，否则会发生错误。
+
+
+
+**②过程参数**
+
+存储过程的参数列表。其中，`<参数名>`为参数名，`<类型>`为参数的类型（可以是任何有效的 MySQL 数据类型）。当有多个参数时，参数列表中彼此间用逗号分隔。存储过程可以没有参数（此时存储过程的名称后仍需加上一对括号），也可以有 1 个或多个参数。
+
+MySQL 存储过程支持三种类型的参数，即输入参数、输出参数和输入/输出参数，分别用 IN、OUT 和 INOUT 三个关键字标识。
+
+其中，输入参数可以传递给一个存储过程，输出参数用于存储过程需要返回一个操作结果的情形，而输入/输出参数既可以充当输入参数也可以充当输出参数。
+
+需要注意的是，参数的取名不要与数据表的列名相同，否则尽管不会返回出错信息，但是存储过程的 SQL 语句会将参数名看作列名，从而引发不可预知的结果。
+
+
+
+**③过程体**
+
+存储过程的主体部分，也称为存储过程体，包含在过程调用的时候必须执行的 SQL 语句。这个部分以关键字 BEGIN 开始，以关键字 END 结束。若存储过程体中只有一条 SQL 语句，则可以省略 BEGIN-END 标志。
+
+**在存储过程的创建中，经常会用到一个十分重要的 MySQL 命令，即 DELIMITER 命令，特别是对于通过命令行的方式来操作 MySQL 数据库的使用者，更是要学会使用该命令。**
+
+在 MySQL 中，服务器处理 SQL 语句默认是以分号作为语句结束标志的。
+
+然而，在创建存储过程时，存储过程体可能包含有多条 SQL 语句，这些 SQL 语句如果仍以分号作为语句结束符，那么 MySQL 服务器在处理时会以遇到的第一条 SQL 语句结尾处的分号作为整个程序的结束符，而不再去处理存储过程体中后面的 SQL 语句，这样显然不行。
+
+
+
+为解决这个问题，通常可使用 `DELIMITER 命令`将结束命令修改为其他字符。
+
+```mysql
+mysql > DELIMITER ??
+```
+
+成功执行这条 SQL 语句后，**任何命令、语句或程序的结束标志就换为两个问号“??”了。**这个操作是永久性的。
+
+若希望换回默认的分号“;”作为结束标志，则在 MySQL 命令行客户端输入下列语句即可：
+
+```mysql
+mysql > DELIMITER ;
+```
+
+
+
+##### 创建不带参数的存储过程：
+
+```mysql
+mysql> DELIMITER ??
+mysql> CREATE PROCEDURE ShowStuScore()
+    -> BEGIN
+    -> SELECT * FROM tb_students_score;
+    -> END ??
+```
+
+##### 创建带参数的存储过程：
+
+```mysql
+mysql> DELIMITER ??
+mysql> CREATE PROCEDURE GetScoreByStu
+    -> (IN name VARCHAR(30))
+    -> BEGIN
+    -> SELECT student_score FROM tb_students_score
+    -> WHERE student_name=name;
+    -> END ??
+```
+
+
+
+### SQL 约束 (Constraints)
+
+> 约束用于限制加入表的数据的类型。
+>
+> 可以在创建表时规定约束（通过 CREATE TABLE 语句），或者在表创建之后也可以（通过 ALTER TABLE 语句）。
+>
+> 我们将主要探讨以下几种约束：
+
+##### NOT NULL
+
+##### UNIQUE
+
+##### PRIMARY KEY
+
+##### FOREIGN KEY
+
+##### CHECK
+
+##### DEFAULT
+
+//TODO
+
+
+
+### SQL函数
+
+//TODO
+
+
+
+### JDBC常用的类和接口
+
+**JDBC技术(Java Database Connectivity),主要完成以下几个接口：**
+
+- 与数据库建立一个连接
+- 向数据库发送SQL语句
+- 处理从数据库返回的结果
+
+**Connection接口**：与数据库连接，在上下文中处理SQL语句并返回结果
+
+**DriverManager类**：jdbc的管理层在数据库的程序中间建立连接。getConnection(String url, String user, String password)方法
+
+**Statement 接口**：在jdbc中有三种statement对象，分别是statement对象、preparedStatement对象和callbackStatement对象。
+
+Statement对象用于执行不带参数的简单SQL语句；preparestatement对象用于执行带参数的动态SQL语句；
+
+Callbackstatement对象用来执行对数据库的存储过程的调用。
+
+**以及ResultSet接口**
+
+ 
